@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookOwnerService {
@@ -22,6 +23,11 @@ public class BookOwnerService {
 
     public List<BookOwner> getAll() {
         return bookOwnerRepository.findAll();
+    }
+
+    public Optional<BookOwner> getByIdBookOwner(Long id_book_owner) {
+
+        return bookOwnerRepository.findById(id_book_owner);
     }
 
     public void addBookOwner(Long iduser, Long idBook) {

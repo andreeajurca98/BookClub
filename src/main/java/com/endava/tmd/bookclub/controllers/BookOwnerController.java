@@ -27,7 +27,7 @@ public class BookOwnerController {
 
     @RequestMapping(params = "id_book_owner", method = RequestMethod.GET)
     public Object getByBookOwnerId(@RequestParam("id_book_owner") Long id_book_owner) {
-        return bookOwnerService.getByBookOwnerId(id_book_owner).isPresent()? bookOwnerService.getByBookOwnerId(id_book_owner).get() :
+        return bookOwnerService.getByIdBookOwner(id_book_owner).isPresent()? bookOwnerService.getByIdBookOwner(id_book_owner).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
@@ -39,18 +39,5 @@ public class BookOwnerController {
         bookOwnerService.addBookOwner(bookOwner);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public void updateBookOwner(@RequestBody BookOwner bookOwner)
-    {
-
-        bookOwnerService.updateBookOwner(bookOwner);
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteByBookOwnerId(@RequestParam("id_boook_owner") Long id_book_owner)
-    {
-
-        bookOwnerService.deleteBookOwner(id_book_owner);
-    }
 
 }

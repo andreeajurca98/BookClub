@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -24,8 +23,11 @@ public class Book {
     private long idBook;
     @Column(unique = true)
     private String title;
+
     private String author;
+
     private String description;
+
     private int numberOfCopies;
 
 
@@ -35,9 +37,9 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "id=" + getIdBook() +
-                ", author=" + getAuthor() +
-                ", title=" + getTitle() +
-                ", description" + getDescription() +
+                ", author=" + getAuthor()+
+                ", title=" + getTitle()+
+                ", description" + getDescription()+
                 ", number of copies" + getNumberOfCopies() +
                 '}';
     }

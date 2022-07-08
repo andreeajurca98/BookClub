@@ -31,18 +31,25 @@ public class LoanService extends Loan{
         return repository.findAll();
     }
 
-    public void addLoan(Long iduser, Long book_owner_id, Long issuedDate){
+    public void addLoan(Long iduser, Long book_owner_id,int period ){
          Loan loan=new Loan();
          loan.setUser(userRepository.findById(iduser).get());
          loan.setBookOwner(bookOwnerRepository.findById(book_owner_id).get());
          loan.setIssuedDate(LocalDate.now());
-         loan.setEndDate(LocalDate.now());
+         loan.setEndDate(LocalDate.now().plusWeeks(period));
          repository.save(loan);
     }
 
-    public void extendPeriod(Long id_loan, LocalDate isssuedDate, LocalDate endDate, int period)
+    public void extendLoan(Long id_loan,  int period)
     {
         Loan loan = repository.findById(id_loan).get();
+        loan.setEndDate(loan.getEndDate().plusWeeks(period));
+        repository.save(loan);
+    }
+
+    public void extendLoan(Long iduser, Long id_book_owner, int period)
+    {
+        Loan loan = repository.findLoanByUserAndBookOwner(iduser, id_book_owner);
         loan.setEndDate(loan.getEndDate().plusWeeks(period));
         repository.save(loan);
     }

@@ -16,36 +16,37 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Book> getAll() {
-        return bookRepository.findAll();
+        return bookService.getAll();
     }
 
-    @RequestMapping(params = "id", method = RequestMethod.GET)
-    public Object getByBookId(@RequestParam("id") Long idbook) {
-        return bookRepository.getByBookId(idbook).isPresent()? bookRepository. getByBookId(idbook).get() :
+    @RequestMapping(params = "idBook", method = RequestMethod.GET)
+    public Object getById(@RequestParam("idBook") Long idBook) {
+
+        return bookService.getByIdBook(idBook).isPresent()? bookService.getByIdBook(idBook).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
-
     @RequestMapping(method = RequestMethod.POST)
-    public void addBook(@RequestBody Book book)
+    public void addUser(@RequestBody Book book)
     {
-
-        bookRepository.save(book);
+        bookService.addBook(book);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void updateBook(@RequestBody Book book)
+    public void updateUser(@RequestBody Book book)
     {
-        bookRepository.updateBook(book);
+        bookService.updateBook(book);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteByBookId(@RequestParam("bookId") Long idbook)
+    public void deleteById(@RequestParam("idBook") Long idBook)
     {
-        bookRepository.deleteBook(idbook);
+        bookService.deleteBook(idBook);
     }
+
+
 }

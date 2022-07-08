@@ -18,6 +18,11 @@ public class BookService {
     @Autowired
     private BookRepository repository;
 
+    @Autowired
+    private  BookRepository bookRepository;
+
+    private UserRepository userRepository;
+
     public List<Book> getAll() {
         return repository.findAll();
     }
@@ -25,8 +30,19 @@ public class BookService {
      repository.save(book);
     }
 
-    public List<Book> getAll() {
-        return repository.findAll();
+    public Optional<Book> getByIdBook(Long idBook) {
+
+        return repository.findById(idBook);
+    }
+
+    public void deleteBook(Long idBook) {
+
+        repository.deleteById(idBook);
+    }
+
+    public void updateBook(Book book) {
+        if (repository.findById(book.getIdBook()).isPresent())
+            repository.save(book);
     }
 
 }

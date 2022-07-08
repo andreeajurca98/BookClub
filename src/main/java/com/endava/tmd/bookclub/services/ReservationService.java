@@ -33,7 +33,6 @@ public class ReservationService {
         reservation.setUser(userRepository.findById(iduser).get());
         reservation.setBook(bookRepository.findById(bookId).get());
         reservation.setDate(LocalDate.now());
-
         repository.save(reservation);
     }
 }

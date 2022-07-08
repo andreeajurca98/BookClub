@@ -21,14 +21,22 @@ public class LoanController {
         this.loanService=loanService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Loan> getAll() {
-        return loanService.getAll();
+    @RequestMapping(method = RequestMethod.POST)
+    public void addLoan(@RequestParam Long iduser, @RequestParam Long book_owner_id,@RequestParam int period)
+    {
+        loanService.addLoan(iduser,book_owner_id, period);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void addLoan(@RequestParam Long iduser, @RequestParam Long bookId)
+    @RequestMapping(params = {"id", "period"},method = RequestMethod.PUT)
+    public void extendLoan(@RequestParam Long id_loan, @RequestParam int period)
     {
-        loanService.addLoan(iduser,bookId);
+        loanService.extendLoan(id_loan, period);
     }
+
+    @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.PUT)
+    public void extendLoan(@RequestParam Long iduser, @RequestParam Long bookOwnerId, @RequestParam int period)
+    {
+       loanService.extendLoan(iduser, bookOwnerId, period);
+    }
+
 }
