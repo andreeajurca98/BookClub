@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Service
-public class LoanService {
+public class LoanService extends Loan{
 
     @Autowired
     private LoanRepository repository;
@@ -34,12 +35,12 @@ public class LoanService {
          Loan loan=new Loan();
          loan.setUser(userRepository.findById(iduser).get());
          loan.setBookOwner(bookOwnerRepository.findById(book_owner_id).get());
-         loan.setIssued_Date(LocalDate.now());
+         loan.setIssuedDate(LocalDate.now());
          loan.setEndDate(LocalDate.now());
          repository.save(loan);
     }
 
-    public void extendPeriod(Long id_loan, LocalDate period, LocalDate endDate)
+    public void extendPeriod(Long id_loan, LocalDate isssuedDate, LocalDate endDate, int period)
     {
         Loan loan = repository.findById(id_loan).get();
         loan.setEndDate(loan.getEndDate().plusWeeks(period));

@@ -27,8 +27,8 @@ public class LoanController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addRent(@RequestParam Long userId, @RequestParam Long bookId,@RequestParam int period)
+    public void addLoan(@RequestParam Long iduser, @RequestParam Long bookId)
     {
-        loanService.addLoan(userId,bookId);
+        loanService.addLoan(iduser,bookId);
     }
 }

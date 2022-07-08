@@ -82,13 +82,13 @@ public class UserService {
         books = books.stream()
                 .filter(book -> book.getRentedBy().stream().anyMatch(rent -> loan.getEndDate().compareTo(LocalDate.now())>=0))
                 .collect(Collectors.toList());
-        for (BookOwner bookOwner : bookOwner) {
+        for (Book book : books) {
             result.append("Book with id = ")
-                    .append(bookOwner.getId()).append(", Title = ")
-                    .append(bookOwner().getTitle())
+                    .append(book.getIdBook()).append(", Title = ")
+                    .append(book().getTitle())
                     .append(" will be returned at ")
-                    .append(bookOwner.getRentedBy().get(bookOwner.getRentedBy().size() - 1).getEndDate()).append(" by ")
-                    .append(bookOwner.getRentedBy().get(bookOwner.getRentedBy().size() - 1).getUser().getName()).append("\n");
+                    .append(book.getRentedBy().get(book.getRentedBy().size() - 1).getEndDate()).append(" by ")
+                    .append(book.getRentedBy().get(book.getRentedBy().size() - 1).getUser().getName()).append("\n");
         }
         return result.toString();
     }

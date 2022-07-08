@@ -20,7 +20,7 @@ public class ReservationController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addWaitList(@RequestParam Long userId, @RequestParam Long bookId) {
+    public void addWaitList(@RequestParam Long iduser, @RequestParam Long bookId) {
         reservationService.addReservation(iduser,bookId);
     }
 }

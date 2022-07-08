@@ -44,8 +44,8 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteByBookId(@RequestParam("bookId") Long id)
+    public void deleteByBookId(@RequestParam("bookId") Long idbook)
     {
-        bookRepository.deleteBook(bookId);
+        bookRepository.deleteBook(idbook);
     }
 }

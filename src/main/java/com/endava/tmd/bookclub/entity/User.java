@@ -48,6 +48,17 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @JsonIgnore
+    @OneToMany
+    private List<Book> bookList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List <Loan> loans;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List <Reservation> reservations;
 
     @Override
     public String toString(){
