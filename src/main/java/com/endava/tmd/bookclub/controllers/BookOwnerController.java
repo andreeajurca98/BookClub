@@ -33,10 +33,9 @@ public class BookOwnerController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addBookOwner(@RequestBody BookOwner bookOwner)
+    public void addBookOwner(@RequestParam Long iduser,@RequestParam Long idBook)
     {
-
-        bookOwnerService.addBookOwner(bookOwner);
+        bookOwnerService.addBookOwner(iduser, idBook);
     }
 
 

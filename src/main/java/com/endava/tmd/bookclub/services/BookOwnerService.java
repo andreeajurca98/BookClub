@@ -37,7 +37,4 @@ public class BookOwnerService {
         bookOwnerRepository.save(bookOwner);
     }
 
-    public List<BookOwner> getAllBookOwners() {
-        return bookOwnerRepository.findAll();
-    }
 }

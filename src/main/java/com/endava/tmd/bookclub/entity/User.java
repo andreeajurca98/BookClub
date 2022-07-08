@@ -66,7 +66,7 @@ public class User {
                 "id=" + getIduser() +
                 ", first name=" + getFirst_name() + '\'' +
                 ", last_name=" + getLast_name() + '\'' +
-                ", username=" + getUsername() +'\''+
+                ", username=" + getUsername()+'\''+
                 ", email=" + getEmail() + '\''+
                 ", password=" + getPassword() + '\'' +
                 "}";
