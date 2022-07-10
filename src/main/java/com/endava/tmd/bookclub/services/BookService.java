@@ -19,19 +19,22 @@ public class BookService {
     private BookRepository repository;
 
     @Autowired
-    private  BookRepository bookRepository;
+    private  BookOwnerRepository bookOwnerRepository;
 
+    @Autowired
     private UserRepository userRepository;
 
     public List<Book> getAll() {
         return repository.findAll();
     }
-    public void addBook(Book book){
+    public void addBook(Long iduser, Long id_book_owner, BookOwner bookOwner){
+        Book book=new Book();
+        BookOwner tempBookOwner=bookOwnerRepository.findBookOwnerById_book_owner(id_book_owner);
+        book.setIdBook();
      repository.save(book);
     }
 
     public Optional<Book> getByIdBook(Long idBook) {
-
         return repository.findById(idBook);
     }
 

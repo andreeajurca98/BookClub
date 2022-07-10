@@ -11,11 +11,15 @@ import java.util.List;
 
 @Component
 public interface UserRepository extends JpaRepository <User, Long>{
+
+
+
+    @Query("SELECT first_name, last_name, email FROM users ")
     User findUserByFirst_nameOrLast_nameOrEmail(String first_name, String last_name, String email);
 
 
-    @Query("select u.booksList from users u")
-    List<Book> findbooksListbyId(Long id);
+   // @Query("select u.booksList from users u")
+   // List<Book> findbooksListbyId(Long id);
 
-    List<Loan> findbooksRentedbyId(long id);
+   // List<Loan> findbooksRentedbyId(long id);
 }

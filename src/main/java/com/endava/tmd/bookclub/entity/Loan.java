@@ -34,7 +34,11 @@ public class Loan {
     @ManyToOne(cascade = CascadeType.ALL)
     private BookOwner bookOwner;
 
+
+    @Column(nullable = false)
     private LocalDate issuedDate;
+
+    @Column(nullable = false)
     private LocalDate endDate;
 
     public Period calculatePeriod(LocalDate issuedDate, LocalDate endDate){
@@ -49,4 +53,6 @@ public class Loan {
     public void setEndDate(LocalDate endDate) {
         this.endDate=endDate;
     }
+
+
 }

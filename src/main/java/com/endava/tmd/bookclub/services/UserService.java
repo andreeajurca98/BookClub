@@ -2,6 +2,7 @@ package com.endava.tmd.bookclub.services;
 
 import com.endava.tmd.bookclub.entity.Book;
 import com.endava.tmd.bookclub.entity.BookOwner;
+import com.endava.tmd.bookclub.entity.Loan;
 import com.endava.tmd.bookclub.entity.User;
 import com.endava.tmd.bookclub.repositories.BookOwnerRepository;
 import com.endava.tmd.bookclub.repositories.BookRepository;
@@ -61,9 +62,23 @@ public class UserService {
         return repository.findById(id);
     }
 
-    public void addBookOwner(Long iduser, BookOwner bookOwner, Book book)  {
+
+  /*  public void addBook(Long userid, Book book) {
+        User tempUser = repository.findById(userid).get();
+        Book tempBook = bookRepository.findBookByTitle(book.getTitle());
+        if(tempBook == null)
+        {
+            tempBook = bookRepository.save(book);
+        }
+        Book book = new Book();
+        book.setIdBook(tempBook);
+        book.setUserid(tempUser)
+        bookRepository.save(book);
+    }*/
+
+   /* public void addBookOwner(Long iduser, BookOwner bookOwner, Book book)  {
         User tempUser = repository.findById(iduser).get();
-        Book tempBook= bookRepository.findBookByTitle(book.getTitle());
+        Book tempBook= bookRepository.findBookByTitle()
         BookOwner tempBookOwner = (BookOwner) bookOwnerRepository.findByBookOwnerId(bookOwner.getId_book_owner());
         if(tempBookOwner == null)
         {
@@ -73,14 +88,14 @@ public class UserService {
         bookOwner1.setUser(tempUser);
         bookOwner1.setBook(tempBook);
         bookOwnerRepository.save(bookOwner1);
-    }
+    } */
 
-    public String getBooksReturnToOwner(Long iduser)
+    /*public String getBooksReturnToOwner(Long iduser)
     {
         StringBuilder result = new StringBuilder();
         List<Book> books = repository.findbooksListbyId(iduser);
         books = books.stream()
-                .filter(book -> book.getRentedBy().stream().anyMatch(rent -> loan.getEndDate().compareTo(LocalDate.now())>=0))
+                .filter(book -> book.getRentedBy().stream().anyMatch(rent -> Loan.getEndDate().compareTo(LocalDate.now())>=0))
                 .collect(Collectors.toList());
         for (Book book : books) {
             result.append("Book with id = ")
@@ -91,5 +106,5 @@ public class UserService {
                     .append(book.getRentedBy().get(book.getRentedBy().size() - 1).getUser().getName()).append("\n");
         }
         return result.toString();
-    }
+    }*/
 }
