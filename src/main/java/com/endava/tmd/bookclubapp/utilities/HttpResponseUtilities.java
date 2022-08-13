@@ -13,6 +13,7 @@ public class HttpResponseUtilities {
     }
 
     public static ResponseEntity<String> operationWasDone(final String body){
+
         return ResponseEntity.ok(body);
     }
 
@@ -26,5 +27,9 @@ public class HttpResponseUtilities {
 
     public static ResponseEntity<String> notAcceptable(final String body){
         return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static <T> ResponseEntity<T> badRequest(final T body){
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 }

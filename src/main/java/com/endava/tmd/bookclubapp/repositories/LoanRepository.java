@@ -11,15 +11,17 @@ import java.util.Optional;
 @SuppressWarnings("SqlDialectInspection")
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long> {
-    @Query("SELECT l FROM loan l WHERE l.id_loan= ?1 AND l.bookOwner = ?2")
-    Optional<Loan> findEntryByBookAndOwner(final Long bookId, final Long ownerId);
+  /*  @Query("SELECT l FROM loan l WHERE l.id_loan= ?1 AND l.bookOwner = ?2")
+   Optional<Loan> findEntryByBookAndOwner(final Long id_loan, final Long id_book_owner); */
 
-    @Query("SELECT l FROM loan l WHERE l.id_loan = ?1 AND l.bookOwner = ?2")
-    Optional<Loan> findEntryByBookAndBorrower(final Long bookId, final Long borrowerId);
+  /*@Query("SELECT l FROM loan l WHERE l.id_loan = ?1 AND l.bookOwner = ?2")
+   Optional<Loan> findEntryByBookAndLoan(final Long bookOwner, final Long id_loan);*/
+
+
 
     @Query(value = "SELECT * FROM book_borrowers WHERE owner_id = ?1" , nativeQuery = true)
-    List<Loan> findBooksThatUserGave(final Long ownerId);
+    List<Loan> findBooksThatUserGave(final Long id_book_owner);
 
     @Query(value = "SELECT * FROM book_borrowers WHERE borrower_id = ?1" , nativeQuery = true)
-    List<Loan> findBooksThatUserRented(final Long borrowerId);
+    List<Loan> findBooksThatUserRented(final Long id_loan);
 }

@@ -14,4 +14,6 @@ public interface BookOwnerRepository extends JpaRepository<BookOwner, Long> {
     @Query(value = "SELECT * FROM book_owners WHERE id_books= ?1", nativeQuery = true)
     List<BookOwner> getBookOwnerById_books(final Long id_books);
 
+    BookOwner findById_book_owner(Long id_book_owner);
+
 }

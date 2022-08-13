@@ -1,15 +1,23 @@
 package com.endava.tmd.bookclubapp.services;
 
 
+import com.endava.tmd.bookclubapp.entity.Book;
+import com.endava.tmd.bookclubapp.entity.Loan;
 import com.endava.tmd.bookclubapp.entity.Reservation;
+import com.endava.tmd.bookclubapp.entity.Users;
 import com.endava.tmd.bookclubapp.repositories.BookRepository;
+import com.endava.tmd.bookclubapp.repositories.LoanRepository;
 import com.endava.tmd.bookclubapp.repositories.ReservationRepository;
 import com.endava.tmd.bookclubapp.repositories.UsersRepository;
+import com.endava.tmd.bookclubapp.utilities.BooleanUtilities;
+import com.endava.tmd.bookclubapp.utilities.HttpResponseUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -35,4 +43,70 @@ public class ReservationService {
         reservation.setDate(LocalDate.now());
         reservationRepository.save(reservation);
     }
+
+
+    public ResponseEntity<List<Reservation>>getAllOnWaitingList() {
+        List<Reservation> listOfEntries = ReservationRepository.findAll();
+        if (BooleanUtilities.emptyList(listOfEntries)) {
+            return HttpResponseUtilities.noContentFound();
+        }
+        return HttpResponseUtilities.operationWasDone(listOfEntries);
+    }
+
+    public ResponseEntity<String> addUserOnList(final Long id_books, final Long iduser) {
+        if(objectsAreInvalid(id_books, iduser)){
+            return HttpResponseUtilities.noContentFound();
+        }
+
+        if(entryAlreadyPresent(id_books, iduser)){
+            return HttpResponseUtilities.badRequest("User with id " + iduser +
+                    " already added himself on waiting list for book with id " + id_books);
+        }
+
+        if(userOwnsTheBook(id_books, iduser)){
+            return HttpResponseUtilities.badRequest(
+                    "User cannot be added on waiting list for his own book.");
+        }
+
+        if(bookAlreadyBorrowedByThisUser(id_books, iduser)){
+            return HttpResponseUtilities.badRequest(
+                    "User having id " + iduser +
+                            " is already renting book with id " + id_books);
+        }
+
+        if(!bookAlreadyBorrowedByThisUser(id_books, iduser)){
+            return HttpResponseUtilities.badRequest("You cannot add yourself on the waiting list for a book that is not already rented!");
+        }
+
+
+        Reservation entry = new Reservation(id_books, iduser);
+        ReservationRepository.save(entry);
+        return HttpResponseUtilities.insertDone("User with id " + entry.getUsers()
+                + " has added himself on waiting list for book with id " + entry.getBook());
+    }
+
+
+
+    private boolean objectsAreInvalid(final Long id_books, final Long iduser){
+        Optional<Book> bookOptional = bookRepository.findById(id_books);
+        Optional<Users> userOptional = userRepository.findById(iduser);
+
+        return bookOptional.isEmpty() || userOptional.isEmpty();
+    }
+
+    private boolean entryAlreadyPresent(final Long id_books, final Long iduser){
+        Optional<Reservation> optionalReservation = reservationRepository.findByBookIdAndUsers(id_books, iduser);
+        return optionalReservation.isPresent();
+    }
+
+    private boolean bookAlreadyBorrowedByThisUser(final Long id_books, final Long id_loan) {
+        Optional<Loan> borrowDoneByUser = LoanRepository.findEntryByBookAndLoan(id_books, id_loan);
+        return borrowDoneByUser.isPresent();
+    }
+
+    private boolean userOwnsTheBook(final Long id_books, final Long id_book_owner){
+        Optional<Loan> bookOwner = LoanRepository.findEntryByBookAndOwner(id_books, id_book_owner);
+        return bookOwner.isPresent();
+    }
 }
+

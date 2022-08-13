@@ -35,12 +35,12 @@ public class LoanController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/BooksUserRented")
-    public ResponseEntity<String> getBooksThatUserRented(@RequestParam("borrowerId") final Optional<Long> borrowerId) {
+    public ResponseEntity<String> getBooksThatUserRented(@RequestParam("id_loan") final Optional<Long> id_loan){
 
-        if (borrowerId.isEmpty()) {
+        if (id_loan.isEmpty()) {
             return HttpResponseUtilities.wrongParameters();
         }
-        List<Loan> borrowerList = loanService.getBooksThatUserRented(borrowerId.get());
+        List<Loan> borrowerList = loanService.getBooksThatUserRented(id_loan.get());
         if (BooleanUtilities.emptyList(borrowerList)) {
             return HttpResponseUtilities.noContentFound();
         }
@@ -56,11 +56,32 @@ public class LoanController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<String> extendRentingPeriod(@RequestParam("id_books") final Optional<Long> id_books,
-                                                      @RequestParam("borrowerId") final Optional<Long> borrowerId) {
-        if (BooleanUtilities.anyEmptyParameters(id_books, borrowerId)) {
+                                                      @RequestParam("id_loan") final Optional<Long> id_loan) {
+        if (BooleanUtilities.anyEmptyParameters(id_books, id_loan)) {
             return HttpResponseUtilities.wrongParameters();
         }
 
-        return loanService.extendRentingPeriod(id_books.orElse(0L), borrowerId.orElse(0L));
+        return loanService.extendRentingPeriod(id_books.orElse(0L), id_loan.orElse(0L));
     }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<String> borrowBookFromOwner(@RequestParam("bookId") final Optional<Long> bookId,
+                                                      @RequestParam("id_loan") final Optional<Long> id_loan,
+                                                      @RequestParam("id_book_owner") final Optional<Long> id_book_owner,
+                                                      @RequestParam("weeks") final Optional<Long> weeksToRent
+    ) {
+        if (BooleanUtilities.anyEmptyParameters(bookId, id_loan, id_book_owner, weeksToRent)
+                || (weeksToRent.orElse(0L) < 1 || weeksToRent.orElse(5L) > 4)) {
+            return HttpResponseUtilities.wrongParameters();
+        }
+
+        return loanService
+                .borrowBookFromOwner(
+                        bookId.orElse(0L),
+                        id_loan.orElse(0L),
+                        id_book_owner.orElse(0L),
+                        weeksToRent.get()
+                );
+    }
+
 }
