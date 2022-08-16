@@ -8,6 +8,7 @@ import com.endava.tmd.bookclubapp.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Cacheable;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,4 +48,10 @@ public class BookService {
         }
     }
 
+
+
+    public List<Book> fetchBooks(String searchTerm) throws Exception {
+        return bookRepository.fetch(searchTerm);
+
+    }
 }

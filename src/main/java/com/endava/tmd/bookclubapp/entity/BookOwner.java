@@ -15,6 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class BookOwner {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false , updatable = false)

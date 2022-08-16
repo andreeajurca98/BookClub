@@ -1,9 +1,6 @@
 package com.endava.tmd.bookclubapp.services;
 
-import com.endava.tmd.bookclubapp.entity.BookOwner;
-import com.endava.tmd.bookclubapp.entity.Loan;
-import com.endava.tmd.bookclubapp.entity.Reservation;
-import com.endava.tmd.bookclubapp.entity.Wishlist;
+import com.endava.tmd.bookclubapp.entity.*;
 import com.endava.tmd.bookclubapp.repositories.BookRepository;
 import com.endava.tmd.bookclubapp.repositories.LoanRepository;
 import com.endava.tmd.bookclubapp.repositories.UsersRepository;
@@ -12,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +27,18 @@ public class WishlistService {
         return wishlistRepository.findById(id_wishlist);
     }
 
+
+
+    public  void createWishlist(Wishlist wishlist){
+        wishlistRepository.save(wishlist);
+    }
+
+    public List<Wishlist> readWishlist(final Long iduser){
+        return wishlistRepository.findByUsers(iduser);
+    }
+    public void addBookToWishlist(){
+        //code
+    }
 
 
     private boolean entryAlreadyPresent(final Long id_books, final Long iduser){
