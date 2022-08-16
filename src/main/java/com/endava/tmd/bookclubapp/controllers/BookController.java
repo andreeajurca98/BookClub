@@ -60,7 +60,7 @@ public class BookController {
                 log.warn("Received 0 results for search string: " + searchTerm);
             }
         } catch (Exception e) {
-            log.error("Error happened in searchPlants endpoint", e);
+            log.error("Error happened in searchBooks endpoint", e);
             e.printStackTrace();
             modelAndView.setViewName("error");
         }

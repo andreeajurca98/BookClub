@@ -36,8 +36,12 @@ public class WishlistService {
     public List<Wishlist> readWishlist(final Long iduser){
         return wishlistRepository.findByUsers(iduser);
     }
-    public void addBookToWishlist(){
+    public void addBookToWishlist(Book book, Wishlist wish){
         //code
+       Wishlist checkWish= wishlistRepository.findBookByIdbookOrAndTitleOrAndAuthor(book.getId_books(),book.getTitle(),book.getAuthor(),book.getDescription());
+        if (checkWish==null){
+            wishlistRepository.save(wish);
+        }
     }
 
 

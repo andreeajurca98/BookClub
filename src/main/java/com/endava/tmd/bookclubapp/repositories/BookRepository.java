@@ -11,5 +11,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM books  b WHERE   b.id_books = ?1 or b.title = ?2 OR b.author = ?3 OR b.description = ?4  OR b.numberOfCopies = ?5 ")
     Book findBookByIdbookOrAndTitleOrAndAuthor(Long id_books, String title, String author,String description,int numberOfCopies);
 
-    List<Book> fetch(String searchTerm);
+   // List<Book> fetch(String searchTerm);
 }

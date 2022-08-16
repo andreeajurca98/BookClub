@@ -65,19 +65,19 @@ public class LoanController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<String> borrowBookFromOwner(@RequestParam("bookId") final Optional<Long> bookId,
+    public ResponseEntity<String> borrowBookFromOwner(@RequestParam("id_books") final Optional<Long> id_books,
                                                       @RequestParam("id_loan") final Optional<Long> id_loan,
                                                       @RequestParam("id_book_owner") final Optional<Long> id_book_owner,
                                                       @RequestParam("weeks") final Optional<Long> weeksToRent
     ) {
-        if (BooleanUtilities.anyEmptyParameters(bookId, id_loan, id_book_owner, weeksToRent)
+        if (BooleanUtilities.anyEmptyParameters(id_books, id_loan, id_book_owner, weeksToRent)
                 || (weeksToRent.orElse(0L) < 1 || weeksToRent.orElse(5L) > 4)) {
             return HttpResponseUtilities.wrongParameters();
         }
 
         return loanService
                 .borrowBookFromOwner(
-                        bookId.orElse(0L),
+                       id_books.orElse(0L),
                         id_loan.orElse(0L),
                         id_book_owner.orElse(0L),
                         weeksToRent.get()
