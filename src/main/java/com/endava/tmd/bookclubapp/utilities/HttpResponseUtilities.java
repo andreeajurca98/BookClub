@@ -9,6 +9,7 @@ public class HttpResponseUtilities {
     }
 
     public static ResponseEntity<String> noContentFound(){
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

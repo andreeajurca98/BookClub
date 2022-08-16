@@ -30,6 +30,6 @@ public class Reservation {
     @Autowired
     private LocalDate date;
 
-    public Reservation(Long id_books, Long iduser) {
+    public Reservation(Long id_books,Long id_book_owner,Long iduser) {
     }
 }

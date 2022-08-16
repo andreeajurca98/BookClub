@@ -45,13 +45,13 @@ public class LoanService {
 
    public ResponseEntity<String> borrowBookFromOwner(final Long id_books, final Long id_loan, final Long id_book_owner, final Long weeks) {
 
-        if (!isDataValid(id_books, id_loan, id_book_owner) || !isBookOwnedBy(id_books, id_book_owner)) {
+        if (!isDataValid(id_books, id_loan, id_book_owner) || !isBookOwnedBy(id_books,id_loan ,id_book_owner)) {
             return HttpResponseUtilities.noContentFound();
         }
 
         if (isBookOfOwnerAlreadyBorrowed(id_books, id_book_owner)
                 || hasBorrowerAlreadyRentTheBook(id_books, id_loan)
-                || isBookOwnedBy(id_book_owner, id_loan)
+                || isBookOwnedBy(id_book_owner,id_loan,id_book_owner)
         ) {
             return HttpResponseUtilities.dataConflict("Borrow cannot be done.");
         }
@@ -73,7 +73,7 @@ public class LoanService {
     }
 
     public ResponseEntity<String> extendRentingPeriod(final Long id_books, final Long id_loan) {
-        Optional<Loan> loanOptional = loanRepository
+        Optional<Loan> loanOptional = LoanRepository
                 .findEntryByBookAndLoan(id_books,id_loan);
 
         if (loanOptional.isEmpty()) {
@@ -106,11 +106,11 @@ public class LoanService {
     }
 
     private boolean isBookOfOwnerAlreadyBorrowed(final Long id_books, final Long id_book_owner) {
-        Optional<Loan> bookByOwner =loanRepository.findEntryByBookAndOwner(id_books, id_book_owner);
+        Optional<Loan> bookByOwner = LoanRepository.findEntryByBookAndOwner(id_books, id_book_owner);
         return bookByOwner.isPresent();
     }
     private boolean hasBorrowerAlreadyRentTheBook(final Long id_books, final Long id_loan) {
-        Optional<Loan> loanOptional = loanRepository.findEntryByBookAndLoan(id_books, id_loan);
+        Optional<Loan> loanOptional = LoanRepository.findEntryByBookAndLoan(id_books, id_loan);
         return loanOptional.isPresent();
     }
 

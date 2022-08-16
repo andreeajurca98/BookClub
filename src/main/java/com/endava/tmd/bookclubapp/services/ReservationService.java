@@ -1,15 +1,11 @@
 package com.endava.tmd.bookclubapp.services;
 
-
+import  com.endava.tmd.bookclubapp.entity.BookOwner;
 import com.endava.tmd.bookclubapp.entity.Book;
 import com.endava.tmd.bookclubapp.entity.Loan;
 import com.endava.tmd.bookclubapp.entity.Reservation;
 import com.endava.tmd.bookclubapp.entity.Users;
-import com.endava.tmd.bookclubapp.repositories.BookRepository;
-import com.endava.tmd.bookclubapp.repositories.LoanRepository;
-import com.endava.tmd.bookclubapp.repositories.ReservationRepository;
-import com.endava.tmd.bookclubapp.repositories.UsersRepository;
-import com.endava.tmd.bookclubapp.utilities.BooleanUtilities;
+import com.endava.tmd.bookclubapp.repositories.*;
 import com.endava.tmd.bookclubapp.utilities.HttpResponseUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +17,20 @@ import java.util.Optional;
 
 @Service
 public class ReservationService {
-
     @Autowired
     private ReservationRepository reservationRepository;
-
     @Autowired
     private UsersRepository userRepository;
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private BookOwnerRepository bookOwnerRepository;
+    @Autowired
+    private  LoanRepository loanRepository;
+
+    public ReservationService(ReservationRepository reservationRepository) {
+        this.reservationRepository= reservationRepository;
+    }
 
 
     public List<Reservation> getAll() {
@@ -45,15 +47,17 @@ public class ReservationService {
     }
 
 
-    public ResponseEntity<List<Reservation>>getAllOnWaitingList() {
-        List<Reservation> listOfEntries = ReservationRepository.findAll();
+  /*  public ResponseEntity<List<Reservation>> getAllOnWaitingList() {
+       List <Reservation> listOfEntries = ReservationRepository.findAll();
         if (BooleanUtilities.emptyList(listOfEntries)) {
             return HttpResponseUtilities.noContentFound();
         }
-        return HttpResponseUtilities.operationWasDone(listOfEntries);
-    }
+        return HttpResponseUtilities.operationWasDone(String.valueOf(listOfEntries));
+    }*/
 
-    public ResponseEntity<String> addUserOnList(final Long id_books, final Long iduser) {
+
+
+    public ResponseEntity<String> addUserOnList(final Long id_books, final Long iduser, final  Long id_book_owner) {
         if(objectsAreInvalid(id_books, iduser)){
             return HttpResponseUtilities.noContentFound();
         }
@@ -79,10 +83,11 @@ public class ReservationService {
         }
 
 
-        Reservation entry = new Reservation(id_books, iduser);
-        ReservationRepository.save(entry);
+        Reservation entry= new Reservation(id_books,id_book_owner, iduser);
+        reservationRepository.save(entry);
         return HttpResponseUtilities.insertDone("User with id " + entry.getUsers()
                 + " has added himself on waiting list for book with id " + entry.getBook());
+
     }
 
 
@@ -91,7 +96,13 @@ public class ReservationService {
         Optional<Book> bookOptional = bookRepository.findById(id_books);
         Optional<Users> userOptional = userRepository.findById(iduser);
 
+
         return bookOptional.isEmpty() || userOptional.isEmpty();
+    }
+
+    private boolean isBookNotBorrowed(final Long id_books, final Long id_book_owner) {
+        Optional<Loan> loanOptional = LoanRepository.findEntryByBookAndOwner(id_books, id_book_owner);
+        return loanOptional.isEmpty();
     }
 
     private boolean entryAlreadyPresent(final Long id_books, final Long iduser){
@@ -100,8 +111,8 @@ public class ReservationService {
     }
 
     private boolean bookAlreadyBorrowedByThisUser(final Long id_books, final Long id_loan) {
-        Optional<Loan> borrowDoneByUser = LoanRepository.findEntryByBookAndLoan(id_books, id_loan);
-        return borrowDoneByUser.isPresent();
+        Optional<Loan> loanDoneByUser = LoanRepository.findEntryByBookAndLoan(id_books, id_loan);
+        return loanDoneByUser.isPresent();
     }
 
     private boolean userOwnsTheBook(final Long id_books, final Long id_book_owner){
