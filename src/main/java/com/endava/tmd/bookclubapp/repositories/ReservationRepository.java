@@ -14,11 +14,11 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
 
-    @Query(value = "SELECT bo FROM book_owner bo WHERE   bo.iduser = ?1 and bo.id_books = ?2 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM reservation WHERE   iduser = ?1 and id_books = ?2 ", nativeQuery = true)
     Optional <Reservation> findByBookIdAndUsers(final Long id_books, final Long iduser);
 
-    @Transactional
+   /* @Transactional
     void deleteAllByUsers(final Long iduser);
     @Transactional
-    void deleteAllByBookId(final Long id_books);
+    void deleteAllByBookId(final Long id_books);*/
 }

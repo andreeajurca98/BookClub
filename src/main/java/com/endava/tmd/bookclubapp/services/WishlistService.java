@@ -27,8 +27,6 @@ public class WishlistService {
         return wishlistRepository.findById(id_wishlist);
     }
 
-
-
     public  void createWishlist(Wishlist wishlist){
         wishlistRepository.save(wishlist);
     }
@@ -38,12 +36,11 @@ public class WishlistService {
     }
     public void addBookToWishlist(Book book, Wishlist wish){
         //code
-       Wishlist checkWish= wishlistRepository.findBookByIdbookOrAndTitleOrAndAuthor(book.getId_books(),book.getTitle(),book.getAuthor(),book.getDescription());
+       Wishlist checkWish= wishlistRepository.findBookByTitleOrAndAuthor(book.getTitle(),book.getAuthor());
         if (checkWish==null){
             wishlistRepository.save(wish);
         }
     }
-
 
     private boolean entryAlreadyPresent(final Long id_books, final Long iduser){
         Optional<Wishlist> optionalWishlist = wishlistRepository.findByBookIdAndUsers(id_books, iduser);
@@ -55,7 +52,7 @@ public class WishlistService {
         return bookOwner.isPresent();
     }
 
-    public void deleteWish(Long id_wishlist) {
+    public void deleteWishlist(Long id_wishlist) {
 
         wishlistRepository.deleteById(id_wishlist);
     }

@@ -19,10 +19,10 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
 
 
-    @Query(value = "SELECT * FROM book_borrowers WHERE owner_id = ?1" , nativeQuery = true)
+    @Query(value = "SELECT * FROM loan WHERE owner_id = ?1" , nativeQuery = true)
     List<Loan> findBooksThatUserGave(final Long id_book_owner);
 
-    @Query(value = "SELECT * FROM book_borrowers WHERE loan_id = ?1" , nativeQuery = true)
+    @Query(value = "SELECT * FROM loan WHERE loan_id = ?1" , nativeQuery = true)
     List<Loan> findBooksThatUserRented(final Long id_loan);
 
     @Query(value = "SELECT * FROM loan WHERE loan_id = ?1", nativeQuery = true)

@@ -15,10 +15,11 @@ import java.util.Optional;
 @Repository
 public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
 
+   @Query(value = "SELECT * FROM wishlist where id_books = ?1 AND iduser = ?2", nativeQuery = true)
     Optional<Wishlist> findByBookIdAndUsers(final Long id_books, final Long iduser);
 
    List<Wishlist> findByUsers(final Long iduser);
 
-    @Query("SELECT b FROM books  b WHERE   b.id_books = ?1 or b.title = ?2 OR b.author = ?3 OR b.description = ?4 ")
-   Wishlist findBookByIdbookOrAndTitleOrAndAuthor(Long id_books, String title, String author, String description);
+    @Query("SELECT b FROM books  b WHERE  b.title = ?1 OR b.author = ?2  ")
+   Wishlist findBookByTitleOrAndAuthor( String title, String author);
 }

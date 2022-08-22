@@ -19,7 +19,7 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false , updatable = false)
     private long id_wishlist;
-    @ManyToOne
+    @OneToOne
     private Users users;
     @ManyToOne
     private Book book;
