@@ -1,11 +1,8 @@
 package com.endava.tmd.bookclubapp.services;
 
-import  com.endava.tmd.bookclubapp.entity.BookOwner;
-import com.endava.tmd.bookclubapp.entity.Book;
-import com.endava.tmd.bookclubapp.entity.Loan;
-import com.endava.tmd.bookclubapp.entity.Reservation;
-import com.endava.tmd.bookclubapp.entity.Users;
+import com.endava.tmd.bookclubapp.entity.*;
 import com.endava.tmd.bookclubapp.repositories.*;
+import com.endava.tmd.bookclubapp.utilities.BooleanUtilities;
 import com.endava.tmd.bookclubapp.utilities.HttpResponseUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +35,11 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
+    public Optional<Reservation> getByIdReservation(Long id_reservation) {
+
+        return reservationRepository.findById(id_reservation);
+    }
+
     public void addReservation(Long iduser, Long id_book) {
         Reservation reservation=new Reservation();
         reservation.setUsers(userRepository.findById(iduser).get());
@@ -47,9 +49,9 @@ public class ReservationService {
     }
 
 
-  /*  public ResponseEntity<List<Reservation>> getAllOnWaitingList() {
+   /* public ResponseEntity<Reservation> getAllOnWaitingList() {
        List <Reservation> listOfEntries = ReservationRepository.findAll();
-        if (BooleanUtilities.emptyList(listOfEntries)) {
+       if (BooleanUtilities.emptyList(listOfEntries)) {
             return HttpResponseUtilities.noContentFound();
         }
         return HttpResponseUtilities.operationWasDone(String.valueOf(listOfEntries));
@@ -118,6 +120,12 @@ public class ReservationService {
     private boolean userOwnsTheBook(final Long id_books, final Long id_book_owner){
         Optional<Loan> bookOwner = LoanRepository.findEntryByBookAndOwner(id_books, id_book_owner);
         return bookOwner.isPresent();
+    }
+
+
+    public void deleteReservation(Long id_reservation) {
+
+        reservationRepository.deleteById(id_reservation);
     }
 }
 

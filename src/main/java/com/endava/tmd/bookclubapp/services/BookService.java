@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.Cacheable;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class BookService {
@@ -48,6 +50,16 @@ public class BookService {
         }
     }
 
+   /* public void searchBooks(){
+        Pattern p=Pattern.compile("\\b[a-zA-Z]{3}\\b");
+
+        for(){
+            Matcher m= p.matcher();
+            while (m.find()){
+                System.out.println(m.group());
+            }
+        }
+    }*/
 
 
    /* public List<Book> fetchBooks(String searchTerm) throws Exception {

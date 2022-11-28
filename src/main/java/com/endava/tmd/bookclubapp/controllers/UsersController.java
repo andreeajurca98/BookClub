@@ -28,20 +28,17 @@ public class UsersController {
     public Object getById(@RequestParam("iduser") Long iduser) {
         return usersService.getbyid(iduser).isPresent()? usersService. getbyid(iduser).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public void addUser(@RequestBody Users user)
     {
-
         usersService.addUser(user);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public void updateUser(@RequestBody Users user)
     {
-
         usersService.updateUser(user);
     }
 

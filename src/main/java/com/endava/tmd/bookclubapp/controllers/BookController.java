@@ -50,7 +50,7 @@ public class BookController {
 
 
     @RequestMapping("/searchBooks")
-    public ModelAndView searchPlants(@RequestParam(value="searchTerm", required=false, defaultValue="") String searchTerm) {
+    public ModelAndView searchBooks(@RequestParam(value="searchTerm", required=false, defaultValue="") String searchTerm) {
         log.debug("entering search books");
         ModelAndView modelAndView = new ModelAndView();
         List<Book>  book = new ArrayList<Book>();

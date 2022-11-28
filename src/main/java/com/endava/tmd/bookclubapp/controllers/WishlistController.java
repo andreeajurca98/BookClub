@@ -23,9 +23,8 @@ public class WishlistController {
         this.wishlistService=wishlistService;
     }
 
-
     @RequestMapping(params = "id_wishlist", method = RequestMethod.GET)
-    public Object getById(@RequestParam("iduser") Long id_wishlist) {
+    public Object getById(@RequestParam("id_wishlist") Long id_wishlist) {
         return wishlistService.getByIdWishlist(id_wishlist).isPresent()? wishlistService.getByIdWishlist(id_wishlist).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -38,12 +37,6 @@ public class WishlistController {
     @RequestMapping(method = RequestMethod.DELETE)
     public void deleteById(@RequestParam("id_wishlist") Long id_wishlist)
     {
-
         wishlistService.deleteWishlist(id_wishlist);
     }
-
-
-
-
-
 }
